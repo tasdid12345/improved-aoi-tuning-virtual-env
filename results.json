@@ -1,0 +1,30 @@
+{
+  "question": "Can a LightGBM cost model that conditions the interest-management radius on user count and movement speed beat a single evolutionary-tuned radius on unseen, shifted avatar workloads in a simulated virtual environment?",
+  "method": "Seeded random-waypoint avatar simulation; 30-radius grid scored by cost; GA-tuned single radius vs LightGBM regressor over (avatars, speed, radius) choosing argmin predicted cost; test on shifted workloads; seeds 42-44.",
+  "dataset": {
+    "name": "Simulated random-waypoint avatar workloads (numpy, seeded)",
+    "source_url": "generated in code (numpy); no download",
+    "n_rows": 400,
+    "n_train": 300,
+    "n_test": 100,
+    "same_as_paper": false,
+    "baseline_is_papers_method": false
+  },
+  "metric_name": "mean regret (test cost of chosen radius minus best grid cost)",
+  "higher_is_better": false,
+  "baseline": "Genetic algorithm (population 8, 10 generations, mutation over radius grid) finding one radius minimising mean training cost, applied to all test workloads.",
+  "improved": "LightGBM regressor on (avatars, speed, radius) -> cost, trained on training workloads; per test workload picks the radius with the lowest predicted cost.",
+  "metrics": {
+    "baseline_score": 0.7012123844693967,
+    "improved_score": 0.15717707914047496,
+    "improvement": 0.5440353053289217,
+    "baseline_score_std": 0.265227650986573,
+    "improved_score_std": 0.10724794411869748,
+    "baseline_bandwidth": 2.7635759364091217,
+    "improved_bandwidth": 3.602565180477859,
+    "baseline_missed_fraction": 0.08254729171627152,
+    "improved_missed_fraction": 0.01975386874269199,
+    "best_grid_cost_test_mean": 0.4006181263342309
+  },
+  "notes": "Synthetic workloads; the split is by design (training 10-80 avatars, speed 1-5; test 60-120 avatars, speed 3-8), not random. Tree models extrapolate flat outside the training range. Cost is noisy for small workloads with few interacting pairs. Regret uses the best of the grid as oracle. Std is population std over three seeds (GA seed or LightGBM seed). LightGBM parameters chosen by grouped CV on training workloads only."
+}
