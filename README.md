@@ -29,6 +29,27 @@ python analysis.py
 
 Results: results are written to results.json (and figures/regret_comparison.png).
 
+## Results (latest run)
+
+On simulated random-waypoint avatar workloads with a shifted test split (n=100), a standard genetic-algorithm tuner of a single interest-management radius had mean regret 0.701 (std 0.265), while a LightGBM cost model choosing the radius per workload reached 0.157 (std 0.107) over three seeds.
+
+| Metric | Value |
+|---|---|
+| baseline_score | 0.7012 |
+| improved_score | 0.1572 |
+| improvement | 0.544 |
+| baseline_score_std | 0.2652 |
+| improved_score_std | 0.1072 |
+| baseline_bandwidth | 2.764 |
+| improved_bandwidth | 3.603 |
+| baseline_missed_fraction | 0.08255 |
+| improved_missed_fraction | 0.01975 |
+| best_grid_cost_test_mean | 0.4006 |
+
+Run on 2026-10-21. Full output: [results.json](results.json) · [run.log](run.log)
+
+Notes: Synthetic workloads; the split is by design (training 10-80 avatars, speed 1-5; test 60-120 avatars, speed 3-8), not random. Tree models extrapolate flat outside the training range. Cost is noisy for small workloads with few interacting pairs. Regret uses the best of the grid as oracle. Std is population std over three seeds (GA seed or LightGBM seed). LightGBM parameters chosen by grouped CV on training workloads only.
+
 ## Reference
 
 This project is motivated by the following paper:
